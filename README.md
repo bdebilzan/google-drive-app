@@ -109,5 +109,5 @@ npm test
 ## Future Considerations
 
 - **Enhanced Error Handling:** Implement more comprehensive error handling and user feedback mechanisms.
-- **Security Improvements:** Ensure secure storage of tokens.
+- **Security Improvements:** Ensure secure storage of tokens. Implement token refresh logic to handle token expiration. 
 - **Performance Optimization:** Optimize performance for handling large file lists and uploads.
