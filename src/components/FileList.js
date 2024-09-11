@@ -13,7 +13,9 @@ const FileList = ({ files, refreshFileList }) => {
             let response;
             let finalFileName = fileName;
 
+
             if (mimeType.startsWith('application/vnd.google-apps.')) {
+                // Map Google Drive MIME types to export formats
                 const exportMimeTypeMap = {
                     'application/vnd.google-apps.document': 'application/msword', // Google Docs to Word
                     'application/vnd.google-apps.spreadsheet': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Google Sheets to Excel
@@ -26,6 +28,7 @@ const FileList = ({ files, refreshFileList }) => {
                     throw new Error('Unsupported file type for export.');
                 }
 
+                // Fetch the file in the desired format
                 response = await axios.get(`https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=${exportMimeType}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -54,6 +57,7 @@ const FileList = ({ files, refreshFileList }) => {
                 }
             }
 
+            // Create a URL for the file blob and trigger download
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -74,6 +78,7 @@ const FileList = ({ files, refreshFileList }) => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            // Refresh the file list after deletion
             refreshFileList();
         } catch (err) {
             alert('Delete failed: ' + (err.response?.data?.error?.message || err.message));
@@ -91,7 +96,12 @@ const FileList = ({ files, refreshFileList }) => {
                         <ListItem key={file.id} className="list-item">
                             <ListItemText
                                 primary={file.name}
-                                secondary={`Type: ${file.mimeType}`}
+                                secondary={
+                                    <>
+                                        <div>Type: {file.mimeType}</div>
+                                        <div>Last Modified: {new Date(file.modifiedTime).toLocaleString()}</div>
+                                    </>
+                                }
                                 className="list-item-text"
                             />
                             <IconButton

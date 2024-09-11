@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { listFiles } from './fileService'; // Adjust path as needed
+import { listFiles } from './fileService';
 
 // Mock axios
 jest.mock('axios');
@@ -21,6 +21,9 @@ describe('listFiles', () => {
         expect(files).toEqual(mockFiles);
         expect(axios.get).toHaveBeenCalledWith('https://www.googleapis.com/drive/v3/files', {
             headers: { Authorization: `Bearer ${mockAccessToken}` },
+            params: {
+                fields: "files(id,name,mimeType,modifiedTime)",
+            },
         });
     });
 

@@ -10,13 +10,16 @@ const FileUpload = ({ onUploadSuccess }) => {
     const [error, setError] = useState(null);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
+
     const accessToken = localStorage.getItem('accessToken');
 
+    // Handle file input change
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
         setError(null); // Clear the error message when a file is selected
     };
 
+    // Handle file upload
     const handleUpload = async () => {
         if (!file) {
             setError('No file selected');
@@ -29,6 +32,8 @@ const FileUpload = ({ onUploadSuccess }) => {
         }
 
         setUploading(true);
+
+        // Create FormData object to handle file and metadata
         const formData = new FormData();
         formData.append('metadata', new Blob([JSON.stringify({
             name: file.name,
@@ -37,12 +42,15 @@ const FileUpload = ({ onUploadSuccess }) => {
         formData.append('file', file);
 
         try {
+            // Make POST request to upload file
             await axios.post('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/related',
                 },
             });
+
+            // Clear state and input after successful upload
             setError(null);
             setFile(null);
             if (fileInputRef.current) {
@@ -63,7 +71,7 @@ const FileUpload = ({ onUploadSuccess }) => {
             </Typography>
             <input
                 type="file"
-                onChange={handleFileChange}
+                onChange={handleFileChange} // Handle file selection
                 ref={fileInputRef} // Reference to the file input
                 style={{ display: 'block', marginBottom: '16px' }}
                 aria-label="file-input"
@@ -80,7 +88,9 @@ const FileUpload = ({ onUploadSuccess }) => {
                     <FontAwesomeIcon icon={faUpload} className="icon" />
                 </div>
             </Button>
+            {/* Show a progress bar while uploading */}
             {uploading && <LinearProgress sx={{ marginTop: 2 }} />}
+            {/* Display error message if there's an upload error */}
             {error && <Typography color="error" sx={{ marginTop: 2 }}>{error}</Typography>}
         </Box>
     );
