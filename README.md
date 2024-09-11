@@ -14,10 +14,7 @@ Before setting up the development environment, ensure you have the following ins
 
 ### Clone the Repository
 
-Clone the repository from GitHub using:
-```bash
-git clone <repository-url>
-```
+https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository#cloning-a-repository
 
 ### Install Dependencies
 
