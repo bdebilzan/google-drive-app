@@ -1,0 +1,31 @@
+.file-list-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.list-item {
+    background-color: #ffffff;
+}
+
+.list-item-text {
+    overflow-wrap: break-word;
+}
+
+.list-item:nth-of-type(even) {
+    background-color: #f5f5f5;
+}
+
+.list-item:hover {
+    background-color: #e0e0e0;
+}
+
+.file-list-button:first-of-type {
+    margin-left: 8px;
+}
+
+.file-list-button:last-of-type {
+    margin-right: 0;
+}
